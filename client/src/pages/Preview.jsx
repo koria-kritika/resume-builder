@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 import ResumePreview from '../Components/ResumePreview'
-import Loader from '../components/Loader'
+import Loader from '../Components/Loader'
 import { ArrowLeftIcon } from 'lucide-react'
 import api from '../configs/api'
 
