@@ -143,7 +143,7 @@
 //         res.json({resumeId: newResume._id})
 
 
-import { geminiGenerate } from "../config/ai.js";
+import { geminiGenerate } from "../configs/ai.js";
 import Resume from "../models/Resume.js";
 
 /* ============================
