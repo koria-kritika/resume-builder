@@ -168,7 +168,7 @@ Return only the improved text.
 
     const enhancedText = await geminiGenerate(prompt);
 
-    res.status(200).json({ enhancedText });
+    res.status(200).json({ enhancedContent: enhancedText });
   } catch (error) {
     console.error("AI ERROR FULL:", error);
     res.status(500).json({ message: "AI enhancement failed" });
@@ -198,7 +198,7 @@ Return only the enhanced text.
 
     const enhancedText = await geminiGenerate(prompt);
 
-    res.status(200).json({ enhancedText });
+    res.status(200).json({ enhancedContent:  enhancedText });
   } catch (error) {
     console.error("AI ERROR FULL:", error);
     res.status(500).json({ message: "AI enhancement failed" });
