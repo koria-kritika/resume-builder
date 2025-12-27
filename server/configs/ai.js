@@ -22,7 +22,8 @@
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
 export async function geminiGenerate(prompt) {
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+  const MODEL = "gemini-1.5-pro";
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${GEMINI_API_KEY}`;
 
   const response = await fetch(url, {
     method: "POST",
