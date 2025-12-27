@@ -22,7 +22,7 @@
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
 export async function geminiGenerate(prompt) {
-
+console.log("USING GEMINI KEY:", GEMINI_API_KEY?.slice(0, 6));
   const url =    "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent" +
     `?key=${GEMINI_API_KEY}`;
 
