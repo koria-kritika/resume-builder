@@ -335,7 +335,8 @@ export const uploadResume = async (req, res) => {
     };
 
     const extractedData = response.choices[0].message.content;
-    const parsedData = JSON.parse(extractedData);
+    const cleanedData = cleanGeminiJSON(extractedData);
+    const parsedData = JSON.parse(cleanedData);
 
     const newResume = await Resume.create({
       userId,
