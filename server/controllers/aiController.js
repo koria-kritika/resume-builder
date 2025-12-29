@@ -320,28 +320,33 @@ export const uploadResume = async (req, res) => {
         ],          
         }
         `;
+    const geminiText = await geminiGenerate(
+      `${systemPrompt}\n\n${userPrompt}`
+    );
 
-       const response = await ai.chat.completions.create({
-            model: process.env.OPENAI_MODEL,
-            messages: [
-                { role: "system",
-                 content: systemPrompt },
-                {
-                    role: "user",
-                    content: userPrompt,
-                },
-        ],
-        response_format: {type:  'json_object'}
-        })
+    const response = {
+      choices: [
+        {
+          message: {
+            content: geminiText
+          }
+        }
+      ]
+    };
 
-        const extractedData = response.choices[0].message.content;
-        const parsedData = JSON.parse(extractedData)
-        const newResume = await Resume.create({userId, title, ...parsedData})
+    const extractedData = response.choices[0].message.content;
+    const parsedData = JSON.parse(extractedData);
 
-        res.json({resumeId: newResume._id})
-    } catch (error) {
-        return res.status(400).json({message: error.message})
-    }
-}
+    const newResume = await Resume.create({
+      userId,
+      title,
+      ...parsedData
+    });
 
+    res.status(201).json({ resumeId: newResume._id });
 
+  } catch (error) {
+    console.error("Upload Resume Error:", error);
+    res.status(400).json({ message: error.message });
+  }
+};
