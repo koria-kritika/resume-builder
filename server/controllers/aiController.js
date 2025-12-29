@@ -145,6 +145,14 @@
 
 import { geminiGenerate } from "../configs/ai.js";
 import Resume from "../models/Resume.js";
+const cleanGeminiJSON = (text) => {
+  if (!text) return "";
+
+  return text
+    .replace(/```json/gi, "")
+    .replace(/```/g, "")
+    .trim();
+};
 
 /* ============================
    Enhance Professional Summary
