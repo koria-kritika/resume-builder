@@ -37,29 +37,26 @@ const App = () => {
   //   getUserData()
   // },[])
 
-useEffect(() => {
-  const token = localStorage.getItem("token");
-  if (!token) {
-    dispatch(setLoading(false));
-    return;
-  }
+ useEffect(() => {
+    const loadUser = async () => {
+      const token = localStorage.getItem('token')
+      if (!token) {
+        dispatch(setLoading(false))
+        return
+      }
 
-  api
-    .get("/api/users/data", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then((res) => {
-      dispatch(login({ token, user: res.data.user }));
-    })
-    .catch((err) => {
-      console.log(err.response?.data || err.message);
-    })
-    .finally(() => {
-      dispatch(setLoading(false));
-    });
-}, []);
+      try {
+        const { data } = await api.get('/api/users/data')
+        dispatch(login({ token, user: data.user }))
+      } catch (err) {
+        localStorage.removeItem('token')
+      } finally {
+        dispatch(setLoading(false))
+      }
+    }
+
+    loadUser()
+  }, [])
 
   return (
     <>
