@@ -15,69 +15,27 @@ const App = () => {
 
   const dispatch = useDispatch()
 
-  // const getUserData = async () => {
-  //   const token = localStorage.getItem('token')
-  //   try {
-  //     if(token){
-  //       const { data } = await api.get('/api/users/data', {headers: {Authorization: token}})
-  //       if(data.user){
-  //         dispatch(login({token, user: data.user}))
-  //       }
-  //       dispatch(setLoading(false))
-  //     }else{
-  //       dispatch(setLoading(false))
-  //     }
-  //   } catch (error) {
-  //     dispatch(setLoading(false))
-  //     console.log(error.message)
-  //   }
-  // }
-
-  // useEffect(()=>{
-  //   getUserData()
-  // },[])
-
- useEffect(() => {
-    const loadUser = async () => {
-      const token = localStorage.getItem('token')
-      if (!token) {
+  const getUserData = async () => {
+    const token = localStorage.getItem('token')
+    try {
+      if(token){
+        const { data } = await api.get('/api/users/data', {headers: {Authorization: token}})
+        if(data.user){
+          dispatch(login({token, user: data.user}))
+        }
         dispatch(setLoading(false))
-        return
-      }
-
-      try {
-        const { data } = await api.get('/api/users/data')
-        dispatch(login({ token, user: data.user }))
-      } catch (err) {
-        localStorage.removeItem('token')
-      } finally {
+      }else{
         dispatch(setLoading(false))
       }
+    } catch (error) {
+      dispatch(setLoading(false))
+      console.log(error.message)
     }
+  }
 
-    loadUser()
-  }, [])
-
-  return (
-    <>
-      <Toaster position="top-right" />
-
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-
-        <Route element={<Layout />}>
-          <Route path="/app/dashboard" element={<Dashboard />} />
-          <Route path="/app/builder/:id" element={<ResumeBuilder />} />
-          <Route path="/app/preview/:id" element={<Preview />} />
-        </Route>
-      </Routes>
-    </>
-  )
-}
-
-export default App
-
+  useEffect(()=>{
+    getUserData()
+  },[])
 
   return (
     <>
