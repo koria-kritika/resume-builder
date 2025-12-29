@@ -4,10 +4,17 @@ import jwt from 'jsonwebtoken'
 import Resume from "../models/Resume.js";
 
 
-const generateToken = (userId)=>{
-    const token = jwt.sign({userId}, process.env.JWT_SECRET, {expiresIn: '7d'})
-    return token;
-}
+// const generateToken = (userId)=>{
+//     const token = jwt.sign({userId}, process.env.JWT_SECRET, {expiresIn: '7d'})
+//     return token;
+// }
+const generateToken = (userId) => {
+  return jwt.sign(
+    { id: userId },   
+    process.env.JWT_SECRET,
+    { expiresIn: "7d" }
+  );
+};
 
 // controller for user registration
 // POST: /api/users/register
@@ -56,9 +63,14 @@ export const loginUser = async (req, res) => {
         }
 
         // check if password is correct
-        if(!user.comparePassword(password)){
-            return res.status(400).json({message: 'Invalid email or password'})
-        }
+        // if(!user.comparePassword(password)){
+        //     return res.status(400).json({message: 'Invalid email or password'})
+        // }
+        const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+    return res.status(400).json({ message: "Invalid email or password" });
+}
+
 
         // return success message
          const token = generateToken(user._id)
