@@ -111,7 +111,12 @@ export const updateResume = async (req, res) =>{
             resumeDataCopy.personal_info.image = response.url
         }
 
-       const resume = await Resume.findByIdAndUpdate({userId, _id: resumeId}, resumeDataCopy, {new: true})
+       // const resume = await Resume.findByIdAndUpdate({userId, _id: resumeId}, resumeDataCopy, {new: true})
+       const resume = await Resume.findOneAndUpdate(
+         { _id: resumeId, userId },
+         resumeDataCopy,
+        { new: true }
+         );
 
        return res.status(200).json({message: 'Saved successfully', resume})
     } catch (error) {
